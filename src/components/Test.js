@@ -1,5 +1,5 @@
 import React from 'react';
-import './Test.css';
+import './Test.styl';
 
 const Test = () => <div className="root">Test</div>;
 

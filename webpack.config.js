@@ -52,7 +52,31 @@ module.exports = (env, options) => {
     module: {
       rules: [
         {
-          test: /\.css$/,
+          test: /[.module]\.styl$/,
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: [
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: true,
+                  localIdentName: '[path][local]-[hash:base64:5]',
+                },
+              },
+              {
+                loader: 'postcss-loader',
+              },
+              {
+                loader: 'stylus-loader',
+                options: {
+                  sourceMap: isDevMode,
+                },
+              },
+            ],
+          }),
+        },
+        {
+          test: /[^.module]\.styl$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
@@ -61,6 +85,12 @@ module.exports = (env, options) => {
               },
               {
                 loader: 'postcss-loader',
+              },
+              {
+                loader: 'stylus-loader',
+                options: {
+                  sourceMap: isDevMode,
+                },
               },
             ],
           }),
