@@ -1,12 +1,11 @@
-const
-  path = require('path'),
-  Html = require('html-webpack-plugin'),
-  ExtractTextPlugin = require("extract-text-webpack-plugin"),
-  Imagemin = require('imagemin-webpack-plugin').default,
-  Clean = require("clean-webpack-plugin");
+const path = require('path');
+const Html = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const Imagemin = require('imagemin-webpack-plugin').default;
+const Clean = require('clean-webpack-plugin');
 
 module.exports = (env, options) => {
-  const isDevMode = options.mode === "development";
+  const isDevMode = options.mode === 'development';
   const dist = path.join(__dirname, 'dist');
   const src = path.join(__dirname, 'src');
 
@@ -34,20 +33,20 @@ module.exports = (env, options) => {
         optimizationBailout: true,
         colors: {
           green: '\u001b[32m',
-        }
-      }
+        },
+      },
     },
     resolve: {
       modules: [src, 'node_modules'],
     },
     plugins: [
       new Html({
-        template: 'index.html'
+        template: 'index.html',
       }),
-      new ExtractTextPlugin("css/[name].css"),
+      new ExtractTextPlugin('css/[name].css'),
       new Clean([dist]),
       new Imagemin({
-        test: /\.(png|gif|jpe?g|svg)$/i
+        test: /\.(png|gif|jpe?g|svg)$/i,
       }),
     ],
     module: {
@@ -56,54 +55,47 @@ module.exports = (env, options) => {
           test: /\.css$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
-            use: [{
-              loader: 'css-loader',
-            }, {
-              loader: 'postcss-loader',
-            }]
-          })
-        },
-        {
-          test: /\.module\.css$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [{
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[path][local]-[hash:base64:5]',
-              }
-            }, {
-              loader: 'postcss-loader',
-            }]
-          })
+            use: [
+              {
+                loader: 'css-loader',
+              },
+              {
+                loader: 'postcss-loader',
+              },
+            ],
+          }),
         },
         {
           test: /\.js$/,
           exclude: /(node_modules)/,
           use: {
             loader: 'babel-loader',
-          }
+          },
         },
         {
           test: /\.(png|gif|jpe?g)$/i,
-          loaders: [{
-            loader: 'file-loader',
-            options: {
-              name: '[path][name].[ext]'
-            }
-          }, 'img-loader']
+          loaders: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[path][name].[ext]',
+              },
+            },
+            'img-loader',
+          ],
         },
         {
           test: /\.(woff2?|oet|([to]tf))$/,
-          use: [{
-            loader: 'file-loader',
-            options: {
-              name: '[path][name].[ext]'
-            }
-          }]
-        }
-      ]
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[path][name].[ext]',
+              },
+            },
+          ],
+        },
+      ],
     },
-  }
+  };
 };

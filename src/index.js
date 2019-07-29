@@ -1,7 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Header from 'components/Header';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Test from 'components/Test';
 
-ReactDOM.render(<Header />, document.getElementById("root"));
-
-import './styles/index.styl'
+ReactDOM.render(<Test />, document.getElementById('root'));
