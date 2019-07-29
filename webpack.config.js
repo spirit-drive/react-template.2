@@ -21,7 +21,6 @@ module.exports = (env, options) => {
     devServer: {
       overlay: true,
       port: 8000,
-      host: '0.0.0.0',
       stats: {
         assets: false,
         children: false,
@@ -54,7 +53,18 @@ module.exports = (env, options) => {
     module: {
       rules: [
         {
-          test: /\.styl$/,
+          test: /\.css$/,
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: [{
+              loader: 'css-loader',
+            }, {
+              loader: 'postcss-loader',
+            }]
+          })
+        },
+        {
+          test: /\.module\.css$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [{
@@ -65,11 +75,6 @@ module.exports = (env, options) => {
               }
             }, {
               loader: 'postcss-loader',
-            }, {
-              loader: 'stylus-loader',
-              options: {
-                sourceMap: isDevMode
-              }
             }]
           })
         },
